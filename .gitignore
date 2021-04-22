@@ -1,1 +1,4 @@
 .idea
+terraform-learning/.terraform
+terraform-learning/*.tfstate
+terraform-learning/*.tfstate.backup
