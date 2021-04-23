@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket         = "terraform-learning-terraform-state"
-    key            = "global/s3/terraform.tfstate"
-    region         = "us-east-1"
+    bucket = "terraform-learning-terraform-state"
+    key    = "global/s3/terraform.tfstate"
+    region = "us-east-1"
 
     dynamodb_table = "terraform-learning-locks"
     encrypt        = true
@@ -10,7 +10,7 @@ terraform {
 }
 
 module "hello_world" {
-  source = "../modules/hello-world/"
+  source          = "../modules/hello-world/"
   resource_prefix = "terraform-learning"
 }
 

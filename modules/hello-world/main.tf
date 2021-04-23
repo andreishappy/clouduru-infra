@@ -12,12 +12,12 @@ provider "aws" {
 
 variable "server_port" {
   description = "The port the server will use for HTTP requests"
-  default = 8080
+  default     = 8080
 }
 
 variable "resource_prefix" {
   description = "Used to make resource names unique"
-  type = string
+  type        = string
 }
 
 # ----
@@ -76,7 +76,7 @@ resource "aws_launch_configuration" "example" {
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.instance.id]
 
-  user_data = templatefile("${path.module}/user-data.sh", { server_port = var.server_port})
+  user_data = templatefile("${path.module}/user-data.sh", { server_port = var.server_port })
 
   lifecycle {
     create_before_destroy = true
@@ -84,9 +84,9 @@ resource "aws_launch_configuration" "example" {
 }
 
 resource "aws_autoscaling_group" "example" {
-  name                  = aws_launch_configuration.example.name
+  name                 = aws_launch_configuration.example.name
   launch_configuration = aws_launch_configuration.example.id
-  availability_zones = data.aws_availability_zones.all.names
+  availability_zones   = data.aws_availability_zones.all.names
 
   load_balancers    = [aws_elb.example.name]
   health_check_type = "ELB"
