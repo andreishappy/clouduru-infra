@@ -1,5 +1,5 @@
 .idea
-terraform-learning/.terraform
-terraform-learning/*.tfstate
-terraform-learning/*.tfstate.backup
-terraform-learning/*.tfstate.lock.info
+*/.terraform
+*/*.tfstate
+*/*.tfstate.backup
+*/*.tfstate.lock.info
