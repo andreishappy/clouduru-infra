@@ -1,38 +1,23 @@
 terraform {
   backend "s3" {
-    bucket = "clouduru-terraform-state"
+    bucket         = "clouduru-terraform-state"
     dynamodb_table = "clouduru-terraform-locks"
-    key    = "root/terraform.tfstate"
-    region = "eu-west-1"
+    key            = "root/terraform.tfstate"
+    region         = "eu-west-1"
   }
 }
 
 
 provider "aws" {
-  region = "eu-west-1"
+  version = "~> 3.40.0"
+  region  = "eu-west-1"
 }
 
-resource "aws_s3_bucket" "terraform_state" {
-  bucket = "clouduru-terraform-state"
 
-  versioning {
-    enabled = true
-  }
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "aws_dynamodb_table" "terraform_locks" {
-  name         = "clouduru-terraform-locks"
-  billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "LockID"
-
-  attribute {
-    name = "LockID"
-    type = "S"
-  }
+module "terraform_state" {
+  bucket_name = "clouduru-terraform-state"
+  lock_table_name = "clouduru-terraform-locks"
+  source = "../../modules/terraform-state"
 }
 
 # -------
@@ -60,7 +45,8 @@ resource "aws_iam_policy" "sandbox_admin" {
         Effect   = "Allow",
         Action   = "sts:AssumeRole",
         Resource = "arn:aws:iam::${aws_organizations_account.sandbox.id}:role/OrganizationAccountAccessRole"
-    }]
+      }
+    ]
   })
 }
 
